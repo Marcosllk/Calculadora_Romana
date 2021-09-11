@@ -1,30 +1,52 @@
 import React, { useState } from 'react';
 import './App.css'
 
-
 const App = () => {
   const [result, setResult] = useState (0);
-  
-  var click = false;
-  
+
+  const [numeroUm, setnumeroUm] = useState (0);
+  const [numeroDois, setnumeroDois] = useState (0);
+  const [op, setOp] = useState ("");
+
   const handleClick = (e) => {
-    //setResult(result.concat(e.target.name));
-    console.log(result + e.target.name);
-    setResult(result + parseInt(e.target.name));
+    if (e.target.name == "-" || e.target.name == "+"){
+      if(op == ""){
+        setnumeroUm(result); 
+        setOp(e.target.name);
+        setResult(result + " " + e.target.name + " ");
+      }
+    }else {
+      if(numeroUm != 0){
+        if(numeroDois == 0 && op != ""){
+          setnumeroDois(parseInt(e.target.name));
+          setResult(numeroUm + " " + op + " " + e.target.name);  
+        }else if(op != ""){
+          setnumeroDois(numeroDois + parseInt(e.target.name));
+          setResult(numeroUm + " " + op + " " + (numeroDois + parseInt(e.target.name)));  
+        }
+      }else{
+        setResult(parseInt(result) + parseInt(e.target.name));
+      }
+    }
+
 
   }
 
   const Clear = () => {
-    setResult("");
-
+    setResult(0);
+    setnumeroDois(0);
+    setnumeroUm(0);
+    setOp(0);
   }
+
   const calculate = () => {
     setResult(eval(result).toString());
+    setnumeroDois(0);
+    setOp("");
   }
 
-
   return (
-     
+      
       <div className="container">
             <form>
               <h1>Calculdora Romana</h1>
